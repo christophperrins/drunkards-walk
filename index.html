@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drunk man problem</title>
+</head>
+
+<body>
+    <div id="drunkards">
+    </div>
+</body>
+<script>
+
+    let randomColour = () => {
+        let rand = () => Math.floor(Math.random() * 16);
+        let colour = "";
+        for (let i = 0; i < 6; i++) {
+            colour += rand().toString(16);
+        }
+        return "#"+colour;
+    }
+
+    function createDrunk() {
+        let drunk = document.createElement("p");
+        drunk.innerText = ".";
+        drunk.style.position = "absolute"
+        drunk.style.top = Math.random()*300+"px";
+        drunk.style.left = Math.random()*500+"px";
+        let positions = [];
+        let color = randomColour();
+        let move = () => {
+            let step = () => Math.random() - 0.5 >= 0 ? 1 : -1;
+            let addPosition = () => {
+                let hist = document.createElement("p");
+                hist.innerText = ".";
+                hist.style.position="absolute";
+                hist.style.top = drunk.style.top;
+                hist.style.left = drunk.style.left;
+                hist.style.color = color;
+                let drunks = document.getElementById("drunkards");
+                drunks.appendChild(hist)
+            }
+            addPosition();
+            drunk.style.top = parseInt(drunk.style.top) + step() + "px";
+            drunk.style.left = parseInt(drunk.style.left) + step() + "px";
+
+        }
+
+
+        let startMovement = setInterval(move, 5);
+        setTimeout(() => { clearInterval(startMovement), printPositions() }, 60000);
+
+
+        let drunks = document.getElementById("drunkards");
+        drunks.appendChild(drunk);
+    }
+    for (let i = 0; i < 10; i++) {
+        createDrunk();
+    }
+</script>
+
+</html>
